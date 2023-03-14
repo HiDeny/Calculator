@@ -1,0 +1,23 @@
+.display {
+    border: 1px solid gray;
+    text-align: center;
+    height: 40px;
+    width: 200px;
+    margin: 0 auto;
+}
+
+.numbers {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 70px;
+    margin: 0 auto;
+}
+
+.number {
+    order: 3;
+    border: 1px solid salmon;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+}
