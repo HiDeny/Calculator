@@ -46,6 +46,7 @@ const clear = document.createElement('button');
         clear.setAttribute('class', 'clear');
         clear.addEventListener('click', () => {
                 displayText('0');
+                num1 = 0;
                 currentNumber = '';
         });
 
@@ -54,9 +55,16 @@ const btnAdd = document.createElement('button');
         btnAdd.textContent = '+';
         btnAdd.setAttribute('class', 'add');
         btnAdd.addEventListener('click', () => {
-                num1 = Number(currentNumber);
-                selectedOperator = '+';
-                currentNumber = '';
+                if (!num1) {
+                        num1 = Number(currentNumber);
+                        selectedOperator = '+';
+                        currentNumber = '';
+                } else {
+                        selectedOperator = '+';
+                        getResult(Number(num1), Number(currentNumber));
+                        num1 = result;
+                        currentNumber = '';
+                }
         })
 
 
@@ -64,60 +72,57 @@ const btnSubtract = document.createElement('button');
         btnSubtract.textContent = '-';
         btnSubtract.setAttribute('class', 'subtract');
         btnSubtract.addEventListener('click', () => {
-                num1 = Number(currentNumber);
-                selectedOperator = '-';
-                currentNumber = '';
+                if (!num1) {
+                        num1 = Number(currentNumber);
+                        selectedOperator = '-';
+                        currentNumber = '';
+                } else {
+                        selectedOperator = '-';
+                        getResult(Number(num1), Number(currentNumber));
+                        num1 = result;
+                        currentNumber = '';
+                }
         })
 
 const btnMultiply = document.createElement('button');
         btnMultiply.textContent = 'x';
         btnMultiply.setAttribute('class', 'multiply');
         btnMultiply.addEventListener('click', () => {
-                num1 = Number(currentNumber);
-                selectedOperator = '*';
-                currentNumber = '';
+                if (!num1) {
+                        num1 = Number(currentNumber);
+                        selectedOperator = '*';
+                        currentNumber = '';
+                } else {
+                        selectedOperator = '*';
+                        getResult(Number(num1), Number(currentNumber));
+                        num1 = result;
+                        currentNumber = '';
+                }
         })
 
 const btnDivide = document.createElement('button');
         btnDivide.textContent = '/';
         btnDivide.setAttribute('class', 'divide');
         btnDivide.addEventListener('click', () => {
-                num1 = Number(currentNumber);
-                selectedOperator = '/';
-                currentNumber = '';
+                if (!num1) {
+                        num1 = Number(currentNumber);
+                        selectedOperator = '/';
+                        currentNumber = '';
+                } else {
+                        selectedOperator = '/';
+                        getResult(Number(num1), Number(currentNumber));
+                        num1 = result;
+                        currentNumber = '';
+                }
         })
 
 const btnResult = document.createElement('button');
         btnResult.textContent = '=';
         btnResult.setAttribute('class', 'result');
         btnResult.addEventListener('click', () => {
-                currentNumber = Number(currentNumber);
-                switch(selectedOperator) {
-                        case '+':
-                                result = add(num1, currentNumber);
-                                displayText(result);
-                                currentNumber = result;
-                                break;
-                        case '-':
-                                result = subtract(num1, currentNumber);
-                                displayText(result);
-                                currentNumber = result;
-                                break;
-                        
-                        case '*':
-                                result = multiply(num1, currentNumber);
-                                displayText(result);
-                                currentNumber = result;
-                                break;
-                        
-                        case '/':
-                                result = divide(num1, currentNumber)
-                                displayText(result);
-                                currentNumber = result;
-                                break;
-                        
-
-                }
+                result = getResult(Number(num1), Number(currentNumber));
+                displayText(result);
+                currentNumber = result;
         });
 
 
@@ -125,6 +130,34 @@ const btnResult = document.createElement('button');
 
 function displayText(text) {
         display.textContent = text;
+}
+
+
+const getResult = (currentNumber, num1) => {
+        switch(selectedOperator) {
+                case '+':
+                        result = add(num1, currentNumber);
+                        displayText(result);
+                        currentNumber = result;
+                        return result;
+                case '-':
+                        result = subtract(num1, currentNumber);
+                        displayText(result);
+                        currentNumber = result;
+                        return result;
+                
+                case '*':
+                        result = multiply(num1, currentNumber);
+                        displayText(result);
+                        currentNumber = result;
+                        return result;
+                
+                case '/':
+                        result = divide(num1, currentNumber)
+                        displayText(result);
+                        currentNumber = result;
+                        return result;
+        }  
 }
 
 // Numbers
