@@ -1,204 +1,171 @@
-// Plan:
+// Variables
+let operator = null;
+let num1 = 0;
+let num2 = 0;
+let result = 0;
+let displayValue = '';
 
-// Basics:
-//      - add
-//      - subtract
-//      - multiply
-//      - divide
-// 
-// Func operate, takes operator and 2 numbers:
-//      call basic function on the numbers
-// 
-// 
-// 
-
-
-// Basics:
+// Functions 
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
 const divide = (a, b) => a / b;
 
-// Operate:
-const operate = (operator, num1, num2) => operator(num1, num2);
+
+const operate = (a, b) => {
+    if(operator === 'add') {
+        result = add(a,b);
+    } else if (operator ==='subtract') {
+        result = subtract(a,b);
+    } else if (operator ==='multiply') {
+        result = multiply(a,b);
+    } else if (operator ==='divide') {
+        result = divide(a,b);
+    }
+    return result;
+}
 
 
-// Defaults:
-let currentNumber = '';
-let selectedOperator = '';
-let num1 = 0;
-let num2 = 0;
-let result = 0;
+const displayText = (number) => display.textContent = number;
 
 
-// HTML calculator DOM:
-const calculator = document.querySelector('#calculator')
+const clear = () => {
+    operator = null;
+    num1 = 0;
+    num2 = 0;
+    result = 0;
+    displayValue = '';
+    displayText(num1);    
+}
 
-// Display
+const undo = () => {
+    displayValue = '';
+    displayText(displayValue);
+    // QuickTest
+    console.log(operator);
+    console.log(num1);
+    console.log(num2);
+    console.log(result);
+    console.log(displayValue);
+}
+
+// Algorithm
+
+const clickOnOperator = (event) => {
+    if (!num1) {
+        num1 = displayValue;
+        operator = event.target.classList[1];
+        displayValue = '';
+    } else {
+        num2 = displayValue;
+        operate(Number(num1), Number(num2));
+        num1 = result;
+        displayText(result);
+        operator = event.target.classList[1];
+        displayValue = '';
+    }
+    // QuickTest
+    console.log(operator);
+    console.log(num1);
+    console.log(num2);
+    console.log(result);
+    console.log(displayValue);
+}
+
+const clickOnEquals = () => {
+    num2 = displayValue;
+    operate(Number(num1), Number(num2));
+    displayText(result);
+    // QuickTest
+    console.log(operator);
+    console.log(num1);
+    console.log(num2);
+    console.log(result);
+    console.log(displayValue);
+}
+
+// DOM elements
+const calculator = document.querySelector('#calculator');
+
 const display = document.createElement('div');
         display.setAttribute('class', 'display');
-        displayText('5318008');
 
+const container = document.createElement('div');
+        container.setAttribute('class', 'container');
 
-// Operators
-const clear = document.createElement('button');
-        clear.textContent = 'C';
-        clear.setAttribute('class', 'clear');
-        clear.addEventListener('click', () => {
-                displayText('0');
-                num1 = 0;
-                currentNumber = '';
-        });
-
-
-const btnAdd = document.createElement('button');
-        btnAdd.textContent = '+';
-        btnAdd.setAttribute('class', 'add');
-        btnAdd.addEventListener('click', () => {
-                if (!num1) {
-                        num1 = Number(currentNumber);
-                        selectedOperator = '+';
-                        currentNumber = '';
-                } else {
-                        selectedOperator = '+';
-                        getResult(Number(num1), Number(currentNumber));
-                        num1 = result;
-                        currentNumber = '';
-                }
-        })
-
-
-const btnSubtract = document.createElement('button');
-        btnSubtract.textContent = '-';
-        btnSubtract.setAttribute('class', 'subtract');
-        btnSubtract.addEventListener('click', () => {
-                if (!num1) {
-                        num1 = Number(currentNumber);
-                        selectedOperator = '-';
-                        currentNumber = '';
-                } else {
-                        selectedOperator = '-';
-                        getResult(Number(num1), Number(currentNumber));
-                        num1 = result;
-                        currentNumber = '';
-                }
-        })
-
-const btnMultiply = document.createElement('button');
-        btnMultiply.textContent = 'x';
-        btnMultiply.setAttribute('class', 'multiply');
-        btnMultiply.addEventListener('click', () => {
-                if (!num1) {
-                        num1 = Number(currentNumber);
-                        selectedOperator = '*';
-                        currentNumber = '';
-                } else {
-                        selectedOperator = '*';
-                        getResult(Number(num1), Number(currentNumber));
-                        num1 = result;
-                        currentNumber = '';
-                }
-        })
+const btnClear = document.createElement('button');
+        btnClear.textContent = 'C';
+        btnClear.setAttribute('class', 'opr clear');
+    
+const btnPlusMinus = document.createElement('button');
+        btnPlusMinus.textContent = '+/-';
+        btnPlusMinus.setAttribute('class', 'opr plusMinus');
+    
+const btnUndo = document.createElement('button');
+        btnUndo.textContent = 'Undo';
+        btnUndo.setAttribute('class', 'opr undo');
 
 const btnDivide = document.createElement('button');
         btnDivide.textContent = '/';
-        btnDivide.setAttribute('class', 'divide');
-        btnDivide.addEventListener('click', () => {
-                if (!num1) {
-                        num1 = Number(currentNumber);
-                        selectedOperator = '/';
-                        currentNumber = '';
-                } else {
-                        selectedOperator = '/';
-                        getResult(Number(num1), Number(currentNumber));
-                        num1 = result;
-                        currentNumber = '';
-                }
-        })
+        btnDivide.setAttribute('class', 'opr divide');
 
-const btnResult = document.createElement('button');
-        btnResult.textContent = '=';
-        btnResult.setAttribute('class', 'result');
-        btnResult.addEventListener('click', () => {
-                result = getResult(Number(num1), Number(currentNumber));
-                displayText(result);
-                currentNumber = result;
-        });
+const btnMultiply = document.createElement('button');
+        btnMultiply.textContent = 'x';
+        btnMultiply.setAttribute('class', 'opr multiply');
 
+const btnSubtract = document.createElement('button');
+        btnSubtract.textContent = '-';
+        btnSubtract.setAttribute('class', 'opr subtract');
 
-// Helper functions 
+const btnAdd = document.createElement('button');
+        btnAdd.textContent = '+';
+        btnAdd.setAttribute('class', 'opr add');
 
-function displayText(text) {
-        display.textContent = text;
-}
+const btnEquals = document.createElement('button');
+        btnEquals.textContent = '=';
+        btnEquals.setAttribute('class', 'opr equals');
 
+const btnDecimal = document.createElement('button');
+        btnDecimal.textContent = ',';
+        btnDecimal.setAttribute('class', 'decimal');
 
-const getResult = (currentNumber, num1) => {
-        switch(selectedOperator) {
-                case '+':
-                        result = add(num1, currentNumber);
-                        displayText(result);
-                        currentNumber = result;
-                        return result;
-                case '-':
-                        result = subtract(num1, currentNumber);
-                        displayText(result);
-                        currentNumber = result;
-                        return result;
-                
-                case '*':
-                        result = multiply(num1, currentNumber);
-                        displayText(result);
-                        currentNumber = result;
-                        return result;
-                
-                case '/':
-                        result = divide(num1, currentNumber)
-                        displayText(result);
-                        currentNumber = result;
-                        return result;
-        }  
-}
-
-// Numbers
-const numbers = document.createElement('div');
-        numbers.setAttribute('class', 'numbers');
-
-const divOperators = document.createElement('div');
-        divOperators.setAttribute('class', 'divOperators');
-
-for (let i = 1; i <= 9; i++) {
-        const number = document.createElement('div');
-                number.setAttribute('class', 'number');
-                number.addEventListener('click', () => {
-                currentNumber += number.textContent;
-                displayText(currentNumber);
-        });
-        number.textContent = i;
-        numbers.appendChild(number);
-}
-
-const zero = document.createElement('div');
-                zero.setAttribute('class', 'zero');
-                zero.textContent = 0;
-                zero.addEventListener('click', () => {
-                currentNumber += zero.textContent;
-                displayText(currentNumber);
+function createKeyPad() {
+        for (let i = 9; i >= 0; i--) {
+                const number = document.createElement('button');
+                        number.setAttribute('class', `number${i}`);
+                        number.addEventListener('click', () => {
+                        displayValue += number.textContent;
+                        displayText(displayValue);
                 });
+                number.textContent = i;
+                container.appendChild(number);
+        }
+}
 
-numbers.appendChild(zero);
 
-// Append
+// Append DOM elements
 calculator.appendChild(display);
-calculator.appendChild(divOperators);
-calculator.appendChild(numbers);
+calculator.appendChild(container);
+container.appendChild(btnClear);
+container.appendChild(btnPlusMinus);
+container.appendChild(btnUndo);
+container.appendChild(btnDivide);
+container.appendChild(btnMultiply);
+container.appendChild(btnSubtract);
+container.appendChild(btnAdd);
+container.appendChild(btnEquals);
+createKeyPad();
+container.appendChild(btnDecimal);
 
-divOperators.appendChild(clear);
-divOperators.appendChild(btnAdd);
-divOperators.appendChild(btnSubtract);
-divOperators.appendChild(btnMultiply);
-divOperators.appendChild(btnDivide);
-divOperators.appendChild(btnResult);
 
+// Connect functions to DOM
 
-
+btnClear.addEventListener('click', clear);
+// btnPlusMinus
+btnUndo.addEventListener('click', undo);
+btnDivide.addEventListener('click', clickOnOperator);
+btnMultiply.addEventListener('click', clickOnOperator);
+btnSubtract.addEventListener('click', clickOnOperator);
+btnAdd.addEventListener('click', clickOnOperator);
+btnEquals.addEventListener('click', clickOnEquals);
+// btnDecimal
