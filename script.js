@@ -64,6 +64,10 @@ const addDecimal = () => {
         
 }
 
+const absValue = () => {
+        // displayValue = Math.abs(displayValue)
+}
+
 // Algorithm
 
 

@@ -1,10 +1,14 @@
+body {
+    /* background-color: ; */
+}
+
 #calculator {
     width: 300px;
     height: 400px;
     margin: 200px auto;
     border: 2px solid black;
     padding: 20px 10px;
-    background-color: grey;
+    background-color: #A60303;
     border-radius: 30px;
     font-family: Helvetica;
 }
@@ -20,6 +24,7 @@
     width: 80%;
     margin: 20px auto 0px;
     background-color: white;
+    /* color: white; */
     border-radius: 20px;
     padding-right: 20px;
 
@@ -36,7 +41,7 @@
                          'one two three add'
                          'zero decimal three add'; */
     grid-template: repeat(5, 1fr) / repeat(4, 1fr);
-    gap: 5px 3px;
+    gap: 1px 1px;
     padding: 10px;
     
 }
@@ -88,12 +93,16 @@
 }
 
 .opr {
-    background-color: pink;
+    background-color: #F2E0D0;
 }
 
 .number, .opr {
     border-radius: 5px;
     font-size: 24px;
+}
+
+.number {
+    background-color: #F2B705;
 }
 
 .undo {
