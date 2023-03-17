@@ -1,8 +1,8 @@
 // Variables
 let operator = null;
-let num1 = 0;
+let num1 = null;
 let num2 = 0;
-let result = 0;
+let result = null;
 let displayValue = '';
 
 // Functions 
@@ -31,25 +31,28 @@ const displayText = (number) => display.textContent = number;
 
 const clear = () => {
     operator = null;
-    num1 = 0;
+    num1 = null;
     num2 = 0;
-    result = 0;
+    result = null;
     displayValue = '';
-    displayText(num1);    
+    displayText(displayValue);
 }
 
 const undo = () => {
     displayValue = '';
     displayText(displayValue);
-    // QuickTest
-    console.log(operator);
-    console.log(num1);
-    console.log(num2);
-    console.log(result);
-    console.log(displayValue);
+}
+
+const addDecimal = () => {
+
 }
 
 // Algorithm
+
+// else if (operator === 'equals' && (!num1 || !num2 || !operator)) {
+//         displayText('Error, something is missing!');
+//     }
+
 
 const clickOnOperator = (event) => {
     if (!num1) {
@@ -57,12 +60,8 @@ const clickOnOperator = (event) => {
         operator = event.target.classList[1];
         displayValue = '';
     } else {
-        num2 = displayValue;
-        operate(Number(num1), Number(num2));
-        num1 = result;
-        displayText(result);
+        clickOnEquals();
         operator = event.target.classList[1];
-        displayValue = '';
     }
     // QuickTest
     console.log(operator);
@@ -75,13 +74,18 @@ const clickOnOperator = (event) => {
 const clickOnEquals = () => {
     num2 = displayValue;
     operate(Number(num1), Number(num2));
-    displayText(result);
-    // QuickTest
-    console.log(operator);
-    console.log(num1);
-    console.log(num2);
-    console.log(result);
-    console.log(displayValue);
+//     if ((operator === 'divide') && (num1 === Infinity || num2 == 0)) {
+//         displayText('Error, division by 0!');
+//         return;
+//     } 
+    if (result === Infinity) {
+        displayText('Error');
+        return;
+    } else {
+        num1 = result;
+        displayText(result);
+        displayValue = '';
+    }
 }
 
 // DOM elements
@@ -167,5 +171,5 @@ btnDivide.addEventListener('click', clickOnOperator);
 btnMultiply.addEventListener('click', clickOnOperator);
 btnSubtract.addEventListener('click', clickOnOperator);
 btnAdd.addEventListener('click', clickOnOperator);
-btnEquals.addEventListener('click', clickOnEquals);
+btnEquals.addEventListener('click', clickOnOperator);
 // btnDecimal
