@@ -5,28 +5,38 @@ let num2 = null;
 let result = null;
 let displayValue = '';
 
-// Functions 
-const add = (a, b) => a + b;
-const subtract = (a, b) => a - b;
-const multiply = (a, b) => a * b;
-const divide = (a, b) => a / b;
-
-
+// Functions
 const operate = (a, b) => {
     if(operator === 'add') {
-        result = add(a,b);
+        result = a + b;
     } else if (operator ==='subtract') {
-        result = subtract(a,b);
+        result = a - b;
     } else if (operator ==='multiply') {
-        result = multiply(a,b);
+        result =  a * b;
     } else if (operator ==='divide') {
-        result = divide(a,b);
+        if (num2 === 0) {
+                result = 'Error';
+        } else {
+                result = a / b;
+        }
+        
     }
+    btnDecimal.removeAttribute('disabled', '');
     return result;
 }
 
 
-const displayText = (number) => display.textContent = number;
+const displayText = (text) => {
+        if (!text) {
+                display.textContent = "Error";
+        }
+        text = text.toString();
+        if (text.length > 9) {
+                text = text.substring(0, 9);
+        }
+        display.textContent = text;
+
+};
 
 
 const clear = () => {
@@ -35,6 +45,7 @@ const clear = () => {
     num2 = null;
     result = null;
     displayValue = '';
+    btnDecimal.removeAttribute('disabled', '');
     displayText('0');
 }
 
@@ -44,48 +55,47 @@ const undo = () => {
 }
 
 const addDecimal = () => {
-
+        if (displayValue.includes('.') || !displayValue) {
+                btnDecimal.setAttribute('disabled', '');
+        } else {
+                displayValue += '.';
+                displayText(displayValue);
+        }
+        
 }
 
 // Algorithm
 
-// else if (operator === 'equals' && (!num1 || !num2 || !operator)) {
-//         displayText('Error, something is missing!');
-//     }
+
 
 
 const clickOnOperator = (event) => {
-    if (!num1) {
-        num1 = displayValue;
-        operator = event.target.classList[1];
-        displayValue = '';
-        if (operator === 'equals') {
-                clickOnEquals(); 
+        if (!num1) {
+                num1 = Number(displayValue);
+                operator = event.target.classList[1];
+                displayValue = '';
+                if (operator === 'equals') {
+                        clickOnEquals(); 
+                }
+        } else {
+                clickOnEquals();
+                operator = event.target.classList[1];
         }
-    } else {
-        clickOnEquals();
-        operator = event.target.classList[1];
-    }
 }
 
 const clickOnEquals = () => {
-    num2 = displayValue;
+    num2 = Number(displayValue);
     operate(Number(num1), Number(num2)); 
-    console.log(result);
-    if (!result || result === Infinity) {
-        displayText('Error');
-        return;
-    }
     num1 = result;
     displayText(result);
     displayValue = '';
 
     // QuickTest
-    console.log(operator);
-    console.log(num1);
-    console.log(num2);
-    console.log(result);
-    console.log(displayValue);
+//     console.log(operator);
+//     console.log(num1);
+//     console.log(num2);
+//     console.log(result);
+//     console.log(displayValue);
 }
 
 // DOM elements
@@ -131,21 +141,16 @@ const btnEquals = document.createElement('button');
 
 const btnDecimal = document.createElement('button');
         btnDecimal.textContent = ',';
-        btnDecimal.setAttribute('class', 'decimal');
+        btnDecimal.setAttribute('class', 'number decimal');
+        
 
 function createKeyPad() {
         for (let i = 9; i >= 0; i--) {
                 const number = document.createElement('button');
-                        number.setAttribute('class', `number${i}`);
+                        number.setAttribute('class', `number i${i}`);
                         number.addEventListener('click', () => {
                         displayValue += number.textContent;
                         displayText(displayValue);
-                        // QuickTest
-                        console.log(operator);
-                        console.log(num1);
-                        console.log(num2);
-                        console.log(result);
-                        console.log(displayValue);
                 });
                 number.textContent = i;
                 container.appendChild(number);
@@ -179,4 +184,4 @@ btnMultiply.addEventListener('click', clickOnOperator);
 btnSubtract.addEventListener('click', clickOnOperator);
 btnAdd.addEventListener('click', clickOnOperator);
 btnEquals.addEventListener('click', clickOnOperator);
-// btnDecimal
+btnDecimal.addEventListener('click', addDecimal);
