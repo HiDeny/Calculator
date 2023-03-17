@@ -1,7 +1,7 @@
 // Variables
 let operator = null;
 let num1 = null;
-let num2 = 0;
+let num2 = null;
 let result = null;
 let displayValue = '';
 
@@ -32,15 +32,15 @@ const displayText = (number) => display.textContent = number;
 const clear = () => {
     operator = null;
     num1 = null;
-    num2 = 0;
+    num2 = null;
     result = null;
     displayValue = '';
-    displayText(displayValue);
+    displayText('0');
 }
 
 const undo = () => {
     displayValue = '';
-    displayText(displayValue);
+    displayText('0');
 }
 
 const addDecimal = () => {
@@ -59,33 +59,33 @@ const clickOnOperator = (event) => {
         num1 = displayValue;
         operator = event.target.classList[1];
         displayValue = '';
+        if (operator === 'equals') {
+                clickOnEquals(); 
+        }
     } else {
         clickOnEquals();
         operator = event.target.classList[1];
     }
+}
+
+const clickOnEquals = () => {
+    num2 = displayValue;
+    operate(Number(num1), Number(num2)); 
+    console.log(result);
+    if (!result || result === Infinity) {
+        displayText('Error');
+        return;
+    }
+    num1 = result;
+    displayText(result);
+    displayValue = '';
+
     // QuickTest
     console.log(operator);
     console.log(num1);
     console.log(num2);
     console.log(result);
     console.log(displayValue);
-}
-
-const clickOnEquals = () => {
-    num2 = displayValue;
-    operate(Number(num1), Number(num2));
-//     if ((operator === 'divide') && (num1 === Infinity || num2 == 0)) {
-//         displayText('Error, division by 0!');
-//         return;
-//     } 
-    if (result === Infinity) {
-        displayText('Error');
-        return;
-    } else {
-        num1 = result;
-        displayText(result);
-        displayValue = '';
-    }
 }
 
 // DOM elements
@@ -140,6 +140,12 @@ function createKeyPad() {
                         number.addEventListener('click', () => {
                         displayValue += number.textContent;
                         displayText(displayValue);
+                        // QuickTest
+                        console.log(operator);
+                        console.log(num1);
+                        console.log(num2);
+                        console.log(result);
+                        console.log(displayValue);
                 });
                 number.textContent = i;
                 container.appendChild(number);
@@ -164,6 +170,7 @@ container.appendChild(btnDecimal);
 
 // Connect functions to DOM
 
+clear();
 btnClear.addEventListener('click', clear);
 // btnPlusMinus
 btnUndo.addEventListener('click', undo);
