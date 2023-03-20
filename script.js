@@ -64,10 +64,35 @@ const addDecimal = () => {
         
 }
 
-const absValue = () => {
-        // displayValue = Math.abs(displayValue)
+const plusMinus = () => {
+        if (!displayValue.includes('-')) {
+                displayValue = '-' + displayValue;
+                displayText(displayValue);
+                console.log(displayValue);
+        } else {
+                displayValue = displayValue.replace('-', '');
+                displayText(displayValue);
+                console.log(displayValue);
+        }
 }
 
+const setOperator = (event) => {
+        if (event.type == 'click') {
+                operator = event.target.classList[1];
+        } else if (event.type == 'keydown') {
+                if (event.key == "+") {
+                        operator = 'add';
+                } else if (event.key == '=' || event.key == 'Enter') {
+                        operator = 'equals';
+                } else if (event.key === '/') {
+                        operator = 'divide';
+                } else if (event.key == 'x' || event.key == '*') {
+                        operator = 'multiply';
+                } else if (event.key == '-') {
+                        operator = 'subtract';
+                }
+        }
+}
 // Algorithm
 
 
@@ -76,14 +101,16 @@ const absValue = () => {
 const clickOnOperator = (event) => {
         if (!num1) {
                 num1 = Number(displayValue);
-                operator = event.target.classList[1];
+                setOperator(event);
+                console.log(operator);
                 displayValue = '';
                 if (operator === 'equals') {
                         clickOnEquals(); 
                 }
         } else {
                 clickOnEquals();
-                operator = event.target.classList[1];
+                setOperator(event);
+                // operator = event.target.classList[1];
         }
 }
 
@@ -151,7 +178,7 @@ const btnDecimal = document.createElement('button');
 function createKeyPad() {
         for (let i = 9; i >= 0; i--) {
                 const number = document.createElement('button');
-                        number.setAttribute('class', `number i${i}`);
+                        number.setAttribute('class', `number Digit${i}`);
                         number.addEventListener('click', () => {
                         displayValue += number.textContent;
                         displayText(displayValue);
@@ -178,10 +205,35 @@ container.appendChild(btnDecimal);
 
 
 // Connect functions to DOM
+window.addEventListener('keydown', (e) => {
+        // let number = document.querySelector(`.${e.code}`);
+        let activeKey = e.code;
+        if (activeKey.includes('Digit')) {
+                number = document.querySelector(`.${e.code}`);
+                displayValue += number.textContent;
+                displayText(displayValue);
+        } else if (
+                e.key == "+"  ||
+                e.key == '='  || 
+                e.key == 'Enter'  || 
+                e.key === '/' || 
+                e.key == 'x'  || 
+                e.key == '*'  || 
+                e.key == '-'
+                ) {
+                clickOnOperator(e);
+        } else {
+                console.log('Gello!')
+        }
+        console.log(e.key);
+        // console.log(number);
+        console.log(e.code);
+        // console.log(e.key);
+    });
 
 clear();
 btnClear.addEventListener('click', clear);
-// btnPlusMinus
+btnPlusMinus.addEventListener('click', plusMinus)
 btnUndo.addEventListener('click', undo);
 btnDivide.addEventListener('click', clickOnOperator);
 btnMultiply.addEventListener('click', clickOnOperator);
