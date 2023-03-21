@@ -56,7 +56,7 @@ const undo = () => {
 
 const addDecimal = () => {
         if (displayValue.includes('.') || !displayValue) {
-                btnDecimal.setAttribute('disabled', '');
+                return;
         } else {
                 displayValue += '.';
                 displayText(displayValue);
@@ -65,14 +65,16 @@ const addDecimal = () => {
 }
 
 const plusMinus = () => {
-        if (!displayValue.includes('-')) {
-                displayValue = '-' + displayValue;
-                displayText(displayValue);
-                console.log(displayValue);
-        } else {
-                displayValue = displayValue.replace('-', '');
-                displayText(displayValue);
-                console.log(displayValue);
+        if (displayValue) {
+                if (!displayValue.includes('-')) {
+                        displayValue = '-' + displayValue;
+                        displayText(displayValue);
+                        console.log(displayValue);
+                } else {
+                        displayValue = displayValue.replace('-', '');
+                        displayText(displayValue);
+                        console.log(displayValue);
+                }
         }
 }
 
@@ -93,11 +95,8 @@ const setOperator = (event) => {
                 }
         }
 }
+
 // Algorithm
-
-
-
-
 const clickOnOperator = (event) => {
         if (!num1) {
                 num1 = Number(displayValue);
@@ -110,7 +109,6 @@ const clickOnOperator = (event) => {
         } else {
                 clickOnEquals();
                 setOperator(event);
-                // operator = event.target.classList[1];
         }
 }
 
@@ -120,13 +118,6 @@ const clickOnEquals = () => {
     num1 = result;
     displayText(result);
     displayValue = '';
-
-    // QuickTest
-//     console.log(operator);
-//     console.log(num1);
-//     console.log(num2);
-//     console.log(result);
-//     console.log(displayValue);
 }
 
 // DOM elements
@@ -205,8 +196,19 @@ container.appendChild(btnDecimal);
 
 
 // Connect functions to DOM
+clear();
+btnClear.addEventListener('click', clear);
+btnPlusMinus.addEventListener('click', plusMinus)
+btnUndo.addEventListener('click', undo);
+btnDivide.addEventListener('click', clickOnOperator);
+btnMultiply.addEventListener('click', clickOnOperator);
+btnSubtract.addEventListener('click', clickOnOperator);
+btnAdd.addEventListener('click', clickOnOperator);
+btnEquals.addEventListener('click', clickOnOperator);
+btnDecimal.addEventListener('click', addDecimal);
+
+//Keyboard support 
 window.addEventListener('keydown', (e) => {
-        // let number = document.querySelector(`.${e.code}`);
         let activeKey = e.code;
         if (activeKey.includes('Digit')) {
                 number = document.querySelector(`.${e.code}`);
@@ -222,22 +224,16 @@ window.addEventListener('keydown', (e) => {
                 e.key == '-'
                 ) {
                 clickOnOperator(e);
+        } else if (e.key == 'Backspace') {
+                undo();
+        } else if (e.key == ',') {
+                addDecimal();
+        } else if (e.code == 'KeyC') {
+                clear();
+        } else if (e.code == 'Backquote') {
+                plusMinus();
         } else {
-                console.log('Gello!')
+                console.log(e.key);
+                console.log(e.code);
         }
-        console.log(e.key);
-        // console.log(number);
-        console.log(e.code);
-        // console.log(e.key);
-    });
-
-clear();
-btnClear.addEventListener('click', clear);
-btnPlusMinus.addEventListener('click', plusMinus)
-btnUndo.addEventListener('click', undo);
-btnDivide.addEventListener('click', clickOnOperator);
-btnMultiply.addEventListener('click', clickOnOperator);
-btnSubtract.addEventListener('click', clickOnOperator);
-btnAdd.addEventListener('click', clickOnOperator);
-btnEquals.addEventListener('click', clickOnOperator);
-btnDecimal.addEventListener('click', addDecimal);
+});
