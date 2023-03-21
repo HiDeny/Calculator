@@ -22,11 +22,11 @@ Operators:
  - Plus/Minus = `Backquote or ± (Shift + Backquote)`
  - Decimal = `Comma`
 ## Features
-  `+` A + B
-  `-` A - B
-  `x` A * B
-  `/` A / B
-  `Undo` Undo clicked number
-  `C` Set calculator to fresh start
-  `+/-` Change displayed number to negative/positive
-  `Decimal` Add decimal separator to displayed number
+  - `+` A + B
+  - `-` A - B
+  - `x` A * B
+  - `/` A / B
+  - `Undo` Undo clicked number
+  - `C` Set calculator to fresh start
+  - `+/-` Change displayed number to negative/positive
+  - `Decimal` Add decimal separator to displayed number
