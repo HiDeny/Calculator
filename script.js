@@ -4,6 +4,8 @@ let num1 = null;
 let num2 = null;
 let result = null;
 let displayValue = '';
+let selectedButton = null;
+
 
 // Functions
 const operate = (a, b) => {
@@ -45,6 +47,9 @@ const clear = () => {
     num2 = null;
     result = null;
     displayValue = '';
+    if(selectedButton !== null) {
+        selectedButton.classList.remove('selected');
+    }       
     btnDecimal.removeAttribute('disabled', '');
     displayText('0');
 }
@@ -81,6 +86,7 @@ const plusMinus = () => {
 const setOperator = (event) => {
         if (event.type == 'click') {
                 operator = event.target.classList[1];
+                toggleButton(event);
         } else if (event.type == 'keydown') {
                 if (event.key == "+") {
                         operator = 'add';
@@ -120,6 +126,14 @@ const clickOnEquals = () => {
     displayValue = '';
 }
 
+
+const toggleButton = (event) => {
+        event.target.classList.add('selected');
+        if(selectedButton !== null) {
+                selectedButton.classList.remove('selected');
+        }
+        selectedButton = event.target;
+}
 // DOM elements
 const calculator = document.querySelector('#calculator');
 
